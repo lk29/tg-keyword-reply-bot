@@ -8,8 +8,8 @@ import (
 )
 
 /**
- * 发送文字消息
- */
+* Send text message 
+*/
 func sendMessage(msg api.MessageConfig) api.Message {
 	if msg.Text == "" {
 		return api.Message{}
@@ -23,7 +23,7 @@ func sendMessage(msg api.MessageConfig) api.Message {
 }
 
 /**
- * 发送图片消息, 需要是已经存在的图片链接
+ * To send a picture message, it needs to be an existing picture link
  */
 func sendPhoto(chatid int64, photoid string) api.Message {
 	file := api.NewPhotoShare(chatid, photoid)
@@ -36,7 +36,7 @@ func sendPhoto(chatid int64, photoid string) api.Message {
 }
 
 /**
- * 发送动图, 需要是已经存在的链接
+ * To send an animation, it needs to be an existing link
  */
 func sendGif(chatid int64, gifid string) api.Message {
 	file := api.NewAnimationShare(chatid, gifid)
@@ -49,7 +49,7 @@ func sendGif(chatid int64, gifid string) api.Message {
 }
 
 /**
- * 发送视频, 需要是已经存在的视频连接
+ * To send video, it needs to be an existing video connection
  */
 func sendVideo(chatid int64, videoid string) api.Message {
 	file := api.NewVideoShare(chatid, videoid)
@@ -62,7 +62,7 @@ func sendVideo(chatid int64, videoid string) api.Message {
 }
 
 /**
- * 发送文件, 必须是已经存在的文件链接
+ * To send a file, it must be an existing file link
  */
 func sendFile(chatid int64, fileid string) api.Message {
 	file := api.NewDocumentShare(chatid, fileid)
