@@ -10,7 +10,7 @@ import (
 )
 
 /**
- * 检查是否是群组的管理员
+ * Check if you are an admin of the group
  */
 func checkAdmin(gid int64, user api.User) bool {
 	admins, _ := bot.GetChatAdministrators(api.ChatConfig{ChatID: gid, SuperGroupUsername: ""})
@@ -28,7 +28,7 @@ func checkAdmin(gid int64, user api.User) bool {
 }
 
 /**
- * 检查是不是新加的群或者新开的人
+ * Check if it is a newly added group or a newly opened person
  */
 func checkInGroup(id int64) bool {
 	for _, gid := range common.AllGroupId {
@@ -44,17 +44,17 @@ func chengfa(gid int64, user api.User) {
 	msg := api.NewMessage(gid, "")
 	if botme.CanRestrictMembers {
 		banMember(gid, user.ID, 60)
-		msg.Text = "[" + user.String() + "](tg://user?id=" + strconv.Itoa(user.ID) + ")乱玩管理员命令,禁言一分钟"
+		msg.Text = "[" + user.String() + "](tg://user?id=" + strconv.Itoa(user.ID) + ")Randomly playing with administrator commands, ban for one minute"
 		msg.ParseMode = "Markdown"
 	} else {
-		msg.Text = "[" + user.String() + "](tg://user?id=" + strconv.Itoa(user.ID) + ")不要乱玩管理员命令"
+		msg.Text = "[" + user.String() + "](tg://user?id=" + strconv.Itoa(user.ID) + ")Don't mess around with admin commands"
 		msg.ParseMode = "Markdown"
 	}
 	sendMessage(msg)
 }
 
 /**
- * 禁言群员
+ * Forbidden group members
  */
 func banMember(gid int64, uid int, sec int64) {
 	if sec <= 0 {
@@ -86,7 +86,7 @@ func unbanMember(gid int64, uid int) {
 }
 
 /**
- * 踢出群员
+ * Kick out group members
  */
 func kickMember(gid int64, uid int) {
 	cmconf := api.ChatMemberConfig{ChatID: gid, UserID: uid}
@@ -98,7 +98,7 @@ func unkickMember(gid int64, uid int) {
 }
 
 /**
- * 返回群组的所有管理员, 用来进行一次性@
+ * Returns all admins of the group, for one-time @
  */
 func getAdmins(gid int64) string {
 	admins, _ := bot.GetChatAdministrators(api.ChatConfig{ChatID: gid})
@@ -114,7 +114,7 @@ func getAdmins(gid int64) string {
 }
 
 /**
- * 检查文字中是否包含阿拉伯文
+ * Check if the text contains Arabic
  */
 func checkQingzhen(text string) bool {
 	for _, c := range text {
