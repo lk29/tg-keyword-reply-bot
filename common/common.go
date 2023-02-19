@@ -2,13 +2,13 @@ package common
 
 import "encoding/json"
 
-// RuleMap 群组规则的字典，匹配规则=>回复内容
+// RuleMap Dictionary of group rules, matching rules => reply content
 type RuleMap map[string]string
 
 var (
-	// AllGroupRules 所有群组的规则字典
+	// AllGroupRules Dictionary of rules for all groups
 	AllGroupRules = make(map[int64]RuleMap)
-	// AllGroupId 目前服务的所有群组的id
+	// AllGroupId The ids of all groups currently serving
 	AllGroupId []int64
 )
 
@@ -20,14 +20,14 @@ func (rm RuleMap) String() string {
 	return string(s)
 }
 
-// Json2kvs 将json字符串转化为规则字典
+// Json2kvs Convert json string to rule dictionary
 func Json2kvs(rulesJson string) RuleMap {
 	tkvs := make(RuleMap)
 	_ = json.Unmarshal([]byte(rulesJson), &tkvs)
 	return tkvs
 }
 
-// AddNewGroup 在内存中添加新群组的条目
+// AddNewGroup Add an entry for the new group in memory
 func AddNewGroup(gid int64) {
 	AllGroupId = append(AllGroupId, gid)
 	AllGroupRules[gid] = make(RuleMap)
