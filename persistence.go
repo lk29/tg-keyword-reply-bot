@@ -8,19 +8,19 @@ import (
 	"tg-keyword-reply-bot/db"
 )
 
-const addText = "格式要求:\r\n" +
-	"`/add 关键字===回复内容`\r\n\r\n" +
-	"例如:\r\n" +
-	"`/add 机场===https://jiji.cool`\r\n" +
-	"就会添加一条规则, 关键词是机场, 回复内容是网址"
-const delText = "格式要求:\r\n" +
-	"`/del 关键字`\r\n\r\n" +
-	"例如:\r\n" +
-	"`/del 机场`\r\n" +
-	"就会删除一条规则,机器人不再回复机场关键词"
+const addText = "Format requirements:\r\n" +
+"`/add keyword===reply content`\r\n\r\n" +
+"Example:\r\n" +
+"`/add Airport===https://jiji.cool`\r\n" +
+"A rule will be added, the keyword is the airport, and the reply content is the URL"
+const delText = "Format requirements:\r\n" +
+"`/del keyword`\r\n\r\n" +
+"Example:\r\n" +
+"`/del airport`\r\n" +
+"A rule will be deleted, and the robot will no longer reply to the airport keyword"
 
 /**
- * 添加规则
+ * add rule
  */
 func addRule(gid int64, rule string) {
 	rules := common.AllGroupRules[gid]
@@ -38,7 +38,7 @@ func addRule(gid int64, rule string) {
 }
 
 /**
- * 给addRule使用的辅助方法
+ * Helper method for addRule
  */
 func _addOneRule(key string, value string, rules common.RuleMap) {
 	key = strings.Replace(key, " ", "", -1)
@@ -46,7 +46,7 @@ func _addOneRule(key string, value string, rules common.RuleMap) {
 }
 
 /**
- * 删除规则
+ * delete rule
  */
 func delRule(gid int64, key string) {
 	rules := common.AllGroupRules[gid]
@@ -55,7 +55,7 @@ func delRule(gid int64, key string) {
 }
 
 /**
- * 获取一个群组所有规则的列表
+ * Get a list of all rules for a group
  */
 func getRuleList(gid int64) []string {
 	kvs := common.AllGroupRules[gid]
@@ -64,7 +64,7 @@ func getRuleList(gid int64) []string {
 	num := 1
 	group := 0
 	for k, v := range kvs {
-		str += "\r\n\r\n规则" + strconv.Itoa(num) + ":\r\n`" + k + "` => `" + v + "` "
+		str += "\r\n\r\nrule" + strconv.Itoa(num) + ":\r\n`" + k + "` => `" + v + "` "
 		num++
 		group++
 		if group == 10 {
@@ -78,7 +78,7 @@ func getRuleList(gid int64) []string {
 }
 
 /**
- * 查询是否包含相应的自动回复规则
+ * Whether the query contains the corresponding auto-reply rules
  */
 func findKey(gid int64, input string) string {
 	kvs := common.AllGroupRules[gid]
