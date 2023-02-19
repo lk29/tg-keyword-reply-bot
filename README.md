@@ -23,3 +23,5 @@
 MIT zu1k i@zu1k.com
 
 Do not provide any robot-related consulting or other services, do not chat with me privately
+
+translated by lk29
