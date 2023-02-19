@@ -30,7 +30,7 @@ func main() {
 	token := db.Init(*botToken)
 	gcron = cron.New()
 	gcron.Start()
-	//开始工作
+	//start working
 	start(token)
 }
 
@@ -59,15 +59,15 @@ func start(botToken string) {
 }
 
 /**
- * 对于每一个update的单独处理
+ * Separate processing for each update
  */
 func processUpdate(update *api.Update) {
 	upmsg := update.Message
 	gid := upmsg.Chat.ID
 	uid := upmsg.From.ID
-	//检查是不是新加的群或者新开的人
+	//Check if it is a newly added group or a newly opened person
 	in := checkInGroup(gid)
-	if !in { //不在就需要加入, 内存中加一份, 数据库中添加一条空规则记录
+	if !in { //If it is not there, you need to add it, add a copy in the memory, and add an empty rule record in the database
 		common.AddNewGroup(gid)
 		db.AddNewGroup(gid)
 	}
@@ -76,7 +76,7 @@ func processUpdate(update *api.Update) {
 	} else {
 		go processReplyCommond(update)
 		go processReply(update)
-		//新用户通过用户名检查是否是清真
+		//New users check if they are halal by username
 		if upmsg.NewChatMembers != nil {
 			for _, auser := range *(upmsg.NewChatMembers) {
 				if checkQingzhen(auser.UserName) ||
@@ -86,7 +86,7 @@ func processUpdate(update *api.Update) {
 				}
 			}
 		}
-		//检查清真并剔除
+		//Check halal and reject
 		if checkQingzhen(upmsg.Text) {
 			_, _ = bot.DeleteMessage(api.NewDeleteMessage(gid, upmsg.MessageID))
 			banMember(gid, uid, -1)
@@ -133,14 +133,14 @@ func processCommond(update *api.Update) {
 	_, _ = bot.DeleteMessage(api.NewDeleteMessage(update.Message.Chat.ID, upmsg.MessageID))
 	switch upmsg.Command() {
 	case "start", "help":
-		msg.Text = "本机器人能够自动回复特定关键词"
+		msg.Text = "This robot can automatically reply to specific keywords"
 		sendMessage(msg)
 	case "add":
 		if checkAdmin(gid, *upmsg.From) {
 			order := upmsg.CommandArguments()
 			if order != "" {
 				addRule(gid, order)
-				msg.Text = "规则添加成功: " + order
+				msg.Text = "The rule was added successfully: " + order
 			} else {
 				msg.Text = addText
 				msg.ParseMode = "Markdown"
@@ -153,7 +153,7 @@ func processCommond(update *api.Update) {
 			order := upmsg.CommandArguments()
 			if order != "" {
 				delRule(gid, order)
-				msg.Text = "规则删除成功: " + order
+				msg.Text = "Rule deleted successfully: " + order
 			} else {
 				msg.Text = delText
 				msg.ParseMode = "Markdown"
@@ -175,7 +175,7 @@ func processCommond(update *api.Update) {
 			}
 		}
 	case "admin":
-		msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(uid) + ") 请求管理员出来打屁股\r\n\r\n" + getAdmins(gid)
+		msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(uid) + ") Ask the admin to come out and spank\r\n\r\n" + getAdmins(gid)
 		msg.ParseMode = "Markdown"
 		sendMessage(msg)
 		banMember(gid, uid, 30)
@@ -185,15 +185,15 @@ func processCommond(update *api.Update) {
 			rand.Seed(time.Now().UnixNano())
 			sec := rand.Intn(540) + 60
 			banMember(gid, uid, int64(sec))
-			msg.Text = "恭喜[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ")获得" + strconv.Itoa(sec) + "秒的禁言礼包"
+			msg.Text = "Congratulations[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ")get" + strconv.Itoa(sec) + "second silence package"
 			msg.ParseMode = "Markdown"
 		} else {
-			msg.Text = "请给我禁言权限,否则无法进行游戏"
+			msg.Text = "Please give me the ban permission, otherwise the game cannot be played"
 		}
 		sendMessage(msg)
 	case "me":
 		myuser := upmsg.From
-		msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") 的账号信息" +
+		msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") account information for" +
 			"\r\nID: " + strconv.Itoa(uid) +
 			"\r\nUseName: [" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ")" +
 			"\r\nLastName: " + myuser.LastName +
@@ -209,7 +209,7 @@ func processReplyCommond(update *api.Update) {
 	var msg api.MessageConfig
 	upmsg := update.Message
 	gid := upmsg.Chat.ID
-	//回复类型的管理命令
+	//Reply to administrative commands of type
 	if upmsg.ReplyToMessage != nil {
 		reolyToUserId := upmsg.ReplyToMessage.From.ID
 		switch upmsg.Text {
@@ -219,7 +219,7 @@ func processReplyCommond(update *api.Update) {
 				mem, _ := bot.GetChatMember(api.ChatConfigWithUser{ChatID: gid, SuperGroupUsername: "", UserID: reolyToUserId})
 				if !mem.CanSendMessages {
 					msg = api.NewMessage(gid, "")
-					msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") 禁言了 " +
+					msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") muted " +
 						"[" + upmsg.ReplyToMessage.From.String() + "](tg://user?id=" + strconv.Itoa(reolyToUserId) + ") "
 					msg.ParseMode = "Markdown"
 					sendMessage(msg)
@@ -231,7 +231,7 @@ func processReplyCommond(update *api.Update) {
 				//mem,_ := bot.GetChatMember(api.ChatConfigWithUser{gid, "", reolyToUserId})
 				//
 				msg = api.NewMessage(gid, "")
-				msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") 解禁了 " +
+				msg.Text = "[" + upmsg.From.String() + "](tg://user?id=" + strconv.Itoa(upmsg.From.ID) + ") unlocked " +
 					"[" + upmsg.ReplyToMessage.From.String() + "](tg://user?id=" + strconv.Itoa(reolyToUserId) + ") "
 				msg.ParseMode = "Markdown"
 				sendMessage(msg)
