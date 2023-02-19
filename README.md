@@ -1,25 +1,25 @@
 <h1 align="center">
-  <br>Telegram 关键词自动回复机器人<br>
+   <br>Telegram keyword auto reply robot<br>
 </h1>
 
-### 基本命令
+### Basic commands
 
-- 添加关键词回复规则 `/add 关键词===回复内容` 或者 `/add 关键词1||关键词2===回复内容` 
-- 关键词可以使用正则表达式,例如`/add re:p([a-z]+)ch===测试正则`,就会匹配规则`p([a-z]+)ch`  
-- 删除关键词规则 `/del 关键词` 暂不支持一次性删除多个关键词
-- 自动删除含有关键词的文字消息, 只需要将回复内容设置成 `delete`, 并给机器人添加删除消息权限
-- 使用`/list`命令可以查看本群内所有自动回复规则
-- 给机器人添加删除消息和踢人的管理权限,可以自动防清真(阿拉伯语)
+- Add keyword reply rule `/add keyword===reply content` or `/add keyword1||keyword2===reply content`
+- Keywords can use regular expressions, such as `/add re:p([a-z]+)ch===test regular`, it will match the rule `p([a-z]+)ch`
+- The keyword deletion rule `/del keyword` does not support deleting multiple keywords at once
+- Automatically delete text messages containing keywords, just set the reply content to `delete`, and add delete message permissions to the robot
+- Use `/list` command to view all auto-reply rules in this group
+- Add the management authority to delete messages and kick people to the robot, which can automatically prevent Halal (Arabic)
 
-### 回复特殊内容
+### Reply with special content
 
-- 回复内容支持文字\图片\GIF\视频,默认文字
-- 如需图片,回复内容设置成`photo:https://t.me/c/1472018167/53095`,`https://t.me/c/1472018167/53095`是已经发送过的图片获取到的链接
-- 同理,gif将`photo`替换成`gif`,视频替换成`video`,文件替换成`file`
-- 注意: 这里的链接必须是公开群组的,否则无法发出来
+- Reply content supports text\picture\GIF\video, default text
+- If you need a picture, set the reply content to `photo: https://t.me/c/1472018167/53095`, `https://t.me/c/1472018167/53095` is the picture that has been sent to get it the link to
+- Similarly, for gif, replace `photo` with `gif`, replace video with `video`, and replace files with `file`
+- Note: The link here must be a public group, otherwise it cannot be sent out
 
 ## License
 
 MIT zu1k i@zu1k.com
 
-不提供任何机器人相关的咨询或其他服务，不要私聊我
+Do not provide any robot-related consulting or other services, do not chat with me privately
